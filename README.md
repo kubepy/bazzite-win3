@@ -84,11 +84,11 @@ $ sudo systemctl reboot
 ```
 
 ```
-$ /usr/bin/intel_set_prefs -read-all
+$ intel_set_prefs -read-all
 ```
 
 ```
-/usr/bin/intel_set_prefs -write-sensor cpu_max_perf 70
+$ intel_set_prefs -write-sensor cpu_max_perf 70
 ```
 
 ```
