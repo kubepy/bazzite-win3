@@ -71,14 +71,16 @@ Link from `/home/deck/local/Steam/steamapps/common` to `/home/deck/share/steamap
 $ ln -s /home/deck/local/Steam/steamapps/common /home/deck/share/steamapps/
 ```
 
-### rpm installation for hibernate instead of sleep:
+### rpm installation for hibernate instead of sleep(needs reboot twice it will create 32GiB swapfile for hibernate) :
 ```
 $ sudo rpm-ostree install ostree-s4swap-20231112-1.fc39.x86_64.rpm
+$ sudo systemctl reboot
 ```
 
 ### rpm installation for intel cpu cpu_max_perf:
 ```
 $ sudo rpm-ostree install intel_set_prefs-20231112-1.fc39.x86_64.rpm
+$ sudo systemctl reboot
 ```
 
 ```
