@@ -41,6 +41,10 @@ Insert the last line to `/etc/fstab`;
 $ sudo vim /etc/fstab
 ```
 ```
+/dev/nvme0n1p5 /var/home/deck/local lowntfs-3g windows_names,uid=1000,gid=1000,rw,user,exec,umask=000 0 0
+```
+
+```
 #
 # /etc/fstab
 # Created by anaconda on Fri Feb  9 20:21:02 2024
