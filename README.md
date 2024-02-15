@@ -1,5 +1,13 @@
 # bazzite-win3
 
+### windows 10 dual boot, bazzite os installation needs to create these partition to install the os.
+
+```
+/boot/efi           efi partition 300MiB
+/boot               ext4 partition 1GiB
+/                   btrfs partition all space
+```
+
 ### win3 rotation:
 ```
 $ mkdir -p ~/.config/environment.d/
