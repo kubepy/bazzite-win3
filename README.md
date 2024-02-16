@@ -14,7 +14,7 @@ $ mkdir -p ~/.config/environment.d/
 ```
 
 ```
-$ cat ~/.config/environment.d/1000-win3.conf 
+$ vim ~/.config/environment.d/1000-win3.conf 
 ```
 ```
 export STEAM_DISPLAY_REFRESH_LIMITS=30,60
@@ -138,5 +138,4 @@ $ sudo systemctl reboot
 ```
 $ sudo systemctl enable steam-patch-intel@deck
 $ sudo systemctl start steam-patch-intel@deck
-sudo systemctl start set_prefs.service
 ```
