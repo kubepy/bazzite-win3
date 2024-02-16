@@ -129,7 +129,7 @@ sudo systemctl enable set_prefs.service
 sudo systemctl start set_prefs.service
 ```
 
-### Use steam-patch-intel , steam support `1~10` tdp to change cpu_max_perf `10%~100%` (need 2 rpms packages intel_set_prefs & steam-patch-intel):
+### Use steam-patch-intel , steam support `3~10` tdp to change cpu_max_perf `30%~100%` (need 2 rpms packages intel_set_prefs & steam-patch-intel):
 ```
 $ sudo rpm-ostree install intel_set_prefs-20231112-1.fc39.x86_64.rpm steam-patch-intel-20240216-1.fc39.x86_64.rpm
 $ sudo systemctl reboot
