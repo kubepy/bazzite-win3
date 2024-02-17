@@ -1,6 +1,6 @@
 # bazzite-win3
 
-### windows 10 dual boot, bazzite os installation needs to create these partition to install the os.
+### windows 10 dual boot, bazzite os installation needs to create these partition by manually to install the os.
 
 ```
 /boot/efi           efi partition 300MiB
