@@ -7,6 +7,17 @@
 /boot               ext4 partition 1GiB
 /                   btrfs partition all space
 ```
+### Win3 Selinux set up to permissive:
+
+```
+$ sudo vim /etc/selinux/config
+```
+```
+SELINUX=permissive
+```
+```
+$ sudo systemctl reboot
+```
 
 ### win3 rotation:
 ```
