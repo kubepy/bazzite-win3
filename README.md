@@ -5,7 +5,14 @@
 ```
 /boot/efi           efi partition 300MiB
 /boot               ext4 partition 1GiB
-/                   btrfs partition all space
+mount point: /
+format:      btrfs (subvolume)
+
+mount point: /var
+format:      btrfs (subvolume)
+
+mount point: /var/home
+format:      btrfs (subvolume)
 ```
 ### Win3 Selinux set up to permissive:
 
