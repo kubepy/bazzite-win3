@@ -142,7 +142,7 @@ WantedBy=default.target
 ```
 
 ```
-sudo systemctl status systemctl daemon-reload
+sudo systemctl daemon-reload
 sudo systemctl enable set_prefs.service
 sudo systemctl start set_prefs.service
 ```
