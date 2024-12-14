@@ -102,6 +102,97 @@ $ ln -s /home/deck/local/Steam/steamapps/common /home/deck/share/steamapps/
 $ sudo rpm-ostree install ostree-s4swap-20231112-1.fc39.x86_64.rpm
 $ sudo systemctl reboot
 ```
+### manual hibernate setup:
+```
+sudo vim /etc/systemd/system/ostree-s4swap.service
+```
+
+```
+[Unit]
+Description=Traditional swap file for ostree s4swap hibernate
+
+[Service]
+Type=oneshot
+Environment="SWAP_PATH=/var/vm" "SWAP_FILE=s4swapfile1"
+EnvironmentFile=-/etc/default/%p
+ExecStartPre=/usr/local/bin/ostree-s4swap.sh &
+ExecStart=/sbin/swapon ${SWAP_PATH}/${SWAP_FILE}
+ExecStop=/sbin/swapoff ${SWAP_PATH}/${SWAP_FILE}
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```
+sudo vim /usr/local/bin/ostree-s4swap.sh
+```
+
+```
+#!/bin/bash
+set -x
+SWAP_PATH=${SWAP_PATH:-"/var/vm"}
+SWAP_FILE=${SWAP_FILE:-"s4swapfile1"}
+SWAP_SIZE=${SWAP_SIZE:-"32G"}
+
+if [ ! -d "${SWAP_PATH}" ]; then
+    mkdir -p ${SWAP_PATH}
+fi
+
+if [ ! -f "${SWAP_PATH}/${SWAP_FILE}" ]; then
+    btrfs filesystem mkswapfile ${SWAP_PATH}/${SWAP_FILE} --size ${SWAP_SIZE}
+fi
+
+RESUME_VALUE=$(findmnt -no UUID -T ${SWAP_PATH}/${SWAP_FILE})
+RESUME_OFFSET_VALUE=$(btrfs inspect-internal map-swapfile -r ${SWAP_PATH}/${SWAP_FILE})
+echo ${RESUME_VALUE}
+echo ${RESUME_OFFSET_VALUE}
+
+RESUME_KARGS=$(rpm-ostree kargs | tr ' ' '\n' | grep 'resume=')
+RESUME_OFFSET_KARGS=$(rpm-ostree kargs | tr ' ' '\n' | grep 'resume_offset=')
+echo ${RESUME_KARGS}
+echo ${RESUME_OFFSET_KARGS}
+
+if [ "${RESUME_KARGS}" != "resume=UUID=${RESUME_VALUE}" ] || [ "${RESUME_OFFSET_KARGS}" != "resume_offset=${RESUME_OFFSET_VALUE}" ]; then
+    rpm-ostree kargs --delete-if-present=${RESUME_KARGS} --delete-if-present=${RESUME_OFFSET_KARGS} --append=resume=UUID=${RESUME_VALUE} --append=resume_offset=${RESUME_OFFSET_VALUE}
+fi
+
+```
+
+```
+sudo systemctl start ostree-s4swap.service
+sudo systemctl enable ostree-s4swap.service
+```
+
+```
+sudo vim /etc/systemd/system/systemd-suspend.service
+```
+
+```
+#  SPDX-License-Identifier: LGPL-2.1-or-later
+#
+#  This file is part of systemd.
+#
+#  systemd is free software; you can redistribute it and/or modify it
+#  under the terms of the GNU Lesser General Public License as published by
+#  the Free Software Foundation; either version 2.1 of the License, or
+#  (at your option) any later version.
+
+[Unit]
+Description=System Suspend
+Documentation=man:systemd-suspend.service(8)
+DefaultDependencies=no
+Requires=systemd-hibernate.service
+After=systemd-hibernate.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/systemctl hibernate
+```
+
+```
+sudo systemctl daemon-reload 
+```
 
 ### rpm installation for intel cpu cpu_max_perf:
 ```
